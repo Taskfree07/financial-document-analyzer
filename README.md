@@ -1,39 +1,160 @@
-# Financial Document Analyzer - Debug Assignment
+# 📊 Financial Document Analyzer (FastAPI + CrewAI)
 
-## Project Overview
-A comprehensive financial document analysis system that processes corporate reports, financial statements, and investment documents using AI-powered analysis agents.
+This project is a **Financial Document Analyzer** built with **FastAPI** and **CrewAI**.  
+It allows users to upload financial PDF reports, processes them using custom tools, and generates **structured insights, risk assessments, and investment recommendations** with the help of AI agents.
 
-## Getting Started
+---
 
-### Install Required Libraries
-```sh
-pip install -r requirement.txt
-```
+## 🚀 Features
+- Upload **financial PDF documents** via REST API
+- Extract text from PDFs with **LangChain’s PyPDFLoader**
+- AI-powered analysis using **CrewAI agents + tasks**
+- Provides:
+  - ✅ Key metrics & trends  
+  - ✅ Investment opportunities  
+  - ✅ Risk assessments  
+  - ✅ Verification of findings  
+- Interactive **Swagger UI** docs at `/docs`
 
-### Sample Document
-The system analyzes financial documents like Tesla's Q2 2025 financial update.
+---
 
-**To add Tesla's financial document:**
-1. Download the Tesla Q2 2025 update from: https://www.tesla.com/sites/default/files/downloads/TSLA-Q2-2025-Update.pdf
-2. Save it as `data/sample.pdf` in the project directory
-3. Or upload any financial PDF through the API endpoint
+## 🛠 Tech Stack
+- **Python 3.10+**
+- [FastAPI](https://fastapi.tiangolo.com/) – REST API
+- [CrewAI](https://github.com/joaomdmoura/crewAI) – Multi-agent framework
+- [CrewAI Tools](https://pypi.org/project/crewai-tools/) – extra integrations
+- [LangChain Community](https://python.langchain.com/docs/) – PDF parsing
+- [Pydantic v2](https://docs.pydantic.dev/) – data validation
+- [Uvicorn](https://www.uvicorn.org/) – ASGI server
 
-**Note:** Current `data/sample.pdf` is a placeholder - replace with actual Tesla financial document for proper testing.
+---
 
-# You're All Not Set!
-🐛 **Debug Mode Activated!** The project has bugs waiting to be squashed - your mission is to fix them and bring it to life.
+## 📂 Project Structure
+financial-document-analyzer/
+├── agents.py # AI agent definitions
+├── tools.py # Custom tools (PDF reader, risk, investment, search)
+├── task.py # Task definitions
+├── main.py # FastAPI entrypoint (API)
+├── data/ # Sample PDFs (ignored in git)
+├── uploads/ # Uploaded PDFs (ignored in git)
+├── .env # API keys (ignored in git)
+├── requirements.txt # Python dependencies
+└── README.md # Documentation
 
-## Debugging Instructions
+yaml
+Copy code
 
-1. **Identify the Bug**: Carefully read the code in each file and understand the expected behavior. There is a bug in each line of code. So be careful.
-2. **Fix the Bug**: Implement the necessary changes to fix the bug.
-3. **Test the Fix**: Run the project and verify that the bug is resolved.
-4. **Repeat**: Continue this process until all bugs are fixed.
+---
 
+## ▶️ Setup Instructions
 
-## Expected Features
-- Upload financial documents (PDF format)
-- AI-powered financial analysis
-- Investment recommendations
-- Risk assessment
-- Market insights
+### 1. Clone the repository
+```bash
+git clone https://github.com/<your-username>/financial-document-analyzer.git
+cd financial-document-analyzer
+2. Create a virtual environment
+bash
+Copy code
+python -m venv venv
+# Activate it:
+venv\Scripts\activate     # Windows
+source venv/bin/activate  # Mac/Linux
+3. Install dependencies
+bash
+Copy code
+pip install -r requirements.txt
+4. Configure environment variables
+Create a .env file in the project root:
+
+ini
+Copy code
+OPENAI_API_KEY=sk-xxxxxx
+SERPER_API_KEY=xxxxxx
+⚠️ Never commit .env — it is ignored by .gitignore.
+
+5. Run the API
+bash
+Copy code
+uvicorn main:app --reload
+Server will start at:
+👉 http://127.0.0.1:8000
+
+Swagger UI docs:
+👉 http://127.0.0.1:8000/docs
+
+📌 Example Usage
+Go to Swagger UI
+
+Expand POST /analyze
+
+Upload a financial PDF (e.g. Tesla Q2 report)
+
+Add an optional query (e.g. "Summarize risks and opportunities")
+
+Execute → get a JSON response with:
+
+Extracted summary
+
+Risks
+
+Opportunities
+
+Recommendations
+
+🛠 Corrections & Fixes Made
+During development, several fixes were required:
+
+Wrong tool import
+
+❌ from crewai import tool
+
+✅ Fixed with from crewai.tools import tool
+
+Virtual environment pushed by mistake
+
+venv/ was committed (huge files rejected by GitHub).
+
+Fixed by adding venv/ to .gitignore and removing it from Git history.
+
+Secrets committed accidentally
+
+.env with API keys was pushed.
+
+GitHub Push Protection blocked it.
+
+Fixed by removing .env from history, rotating keys, and ignoring .env.
+
+Tools were plain functions, not Tool objects
+
+Error: 'function' object has no attribute 'get'
+
+Fixed by properly decorating tools with @tool from crewai.tools.
+
+File uploads failed
+
+Error: "Form data requires 'python-multipart' to be installed"
+
+Fixed with:
+
+bash
+Copy code
+pip install python-multipart
+⚠️ Notes
+Always run in a virtual environment (venv/)
+
+Always use .gitignore to exclude:
+
+venv/
+
+.env
+
+uploads/
+
+data/*.pdf
+
+Always rotate API keys if they were exposed
+
+Use requirements.txt so others can recreate the environment
+
+📜 License
+MIT License – free to use and modify.
